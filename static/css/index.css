@@ -1,0 +1,225 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.footer .icon-link {
+  font-size: 25px;
+  color: #000;
+}
+
+.link-block a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* ── Hero / publication ── */
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.publication-title,
+.publication-authors {
+  font-family: 'Google Sans', sans-serif;
+}
+.publication-venue {
+  color: #555;
+  width: fit-content;
+  font-weight: bold;
+}
+.publication-authors a {
+  color: hsl(204, 86%, 53%) !important;
+}
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+.author-block {
+  display: inline-block;
+}
+
+/* ── Section banner label ── */
+.section-banner {
+  background: #f5f5f5;
+}
+
+/* ── Figures ── */
+.fig-caption {
+  font-size: 0.82rem;
+  color: #666;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+/* ── Key Finding callout boxes ── */
+.kf-callout {
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 0 0 1.25rem;
+  border-left: 5px solid;
+  text-align: left;
+}
+.kf-callout .kf-label {
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+}
+.kf-callout .kf-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #2d3748;
+}
+.kf-blue   { background: #eff6ff; border-color: #3273dc; }
+.kf-blue   .kf-label { color: #1d4ed8; }
+.kf-red    { background: #fff1f2; border-color: #b91c1c; }
+.kf-red    .kf-label { color: #9b1c1c; }
+.kf-orange { background: #fffbeb; border-color: #d97706; }
+.kf-orange .kf-label { color: #92400e; }
+.kf-green  { background: #f0fdf4; border-color: #16a34a; }
+.kf-green  .kf-label { color: #166534; }
+
+/* ── Insight cards ── */
+.insight-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem;
+  border-left: 4px solid #3273dc;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.insight-card.i1 { border-left-color: #3273dc; }
+.insight-card.i2 { border-left-color: #ff3860; }
+.insight-card.i3 { border-left-color: #f0a030; }
+.insight-card.i4 { border-left-color: #23d160; }
+.insight-card .insight-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+.insight-card .insight-headline {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a2e;
+}
+.insight-card .insight-body {
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ── Key numbers ── */
+.result-number { font-size: 2rem; font-weight: 700; color: #3273dc; }
+.result-label  { font-size: 0.85rem; color: #666; }
+
+/* ── Citation box ── */
+.citation-box {
+  background: #f5f5f5;
+  color: #2d3748;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  white-space: pre;
+  overflow-x: auto;
+  text-align: left;
+}
+
+/* ── Simple carousel ── */
+.simple-carousel {
+  position: relative;
+  width: 100%;
+}
+.simple-carousel .slides {
+  overflow: hidden;
+  border-radius: 6px;
+}
+.simple-carousel .slide {
+  display: none;
+}
+.simple-carousel .slide.active {
+  display: block;
+}
+.simple-carousel .slide img {
+  width: 90%;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+}
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+.carousel-btn {
+  background: #3273dc;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.carousel-btn:hover { background: #1a56c4; }
+.carousel-counter {
+  font-size: 0.85rem;
+  color: #666;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* ── Topology boxes ── */
+.topo-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.2rem 0.8rem 1rem;
+  text-align: center;
+  border-top: 3px solid #3273dc;
+  height: 100%;
+}
+.topo-card .topo-icon {
+  margin-bottom: 0.6rem;
+}
+.topo-card .topo-icon svg {
+  display: block;
+  margin: 0 auto;
+}
+.topo-card .topo-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+.topo-card .topo-desc {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+@media screen and (max-width: 768px) {
+  .simple-carousel .slide img { width: 100%; }
+}

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When Does Multi-Agent Collaboration Help? An Entropy Perspective</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+</head>
+<body>
+
+<!-- ════════════════ Navbar ════════════════ -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navMenu" class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">More Resources</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://arxiv.org/abs/2602.04234" target="_blank"><b>arXiv</b></a>
+          <a class="navbar-item" href="https://github.com/AgenticFinLab/multiagent-entropy" target="_blank"><b>Code</b></a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="#findings">Key Findings</a>
+          <a class="navbar-item" href="#topologies">Topologies</a>
+          <a class="navbar-item" href="#methodology">Methodology</a>
+          <a class="navbar-item" href="#entropy-analysis">Entropy Analysis</a>
+          <a class="navbar-item" href="#causal">Causal Discovery</a>
+          <a class="navbar-item" href="#rounds">Round Analysis</a>
+          <a class="navbar-item" href="#agentic">Agentic Tasks</a>
+          <a class="navbar-item" href="#rl">RL Fine-tuning</a>
+          <a class="navbar-item" href="#judger">Entropy Judger</a>
+          <a class="navbar-item" href="#additional">Additional Experiments</a>
+          <a class="navbar-item" href="#BibTeX">BibTeX</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ Hero ════════════════ -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body has-text-centered">
+      <h1 class="title is-2 publication-title" style="margin-bottom: 0.6rem;">
+        When Does Multi-Agent Collaboration Help?<br>An Entropy Perspective
+      </h1>
+
+      <div class="is-size-5 publication-authors" style="margin-bottom: 0.8rem;">
+        <span class="author-block">Yuxuan Zhao<sup>1,2</sup>,</span>
+        <span class="author-block">Sijia Chen<sup>2</sup>,</span>
+        <span class="author-block">Ningxin Su<sup>2</sup></span>
+      </div>
+      <div class="is-size-6" style="margin-bottom: 1rem; color: #555;">
+        <span><sup>1</sup>Yantai Research Institute of Harbin Engineering University</span><br>
+        <span><sup>2</sup>The Hong Kong University of Science and Technology (Guangzhou)</span>
+      </div>
+
+      <div class="publication-links">
+        <span class="link-block">
+          <a href="https://arxiv.org/abs/2602.04234" class="button is-normal is-rounded is-link">
+            <span class="icon"><i class="fas fa-file-pdf"></i></span>
+            <span>arXiv</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="https://github.com/AgenticFinLab/multiagent-entropy" class="button is-normal is-rounded is-dark">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>Code</span>
+          </a>
+        </span>
+      </div>
+
+      <p class="is-size-6" style="margin-top: 1.2rem; color: #444; max-width: 700px; margin-left: auto; margin-right: auto;">
+        Single-agent systems outperform multi-agent systems in <strong>43.3%</strong> of cases.
+        Entropy dynamics in the <strong>first round</strong> largely determine MAS effectiveness.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Teaser Figure ════════════════ -->
+<section class="section" style="padding-top: 0;">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered">
+      <img src="./static/images/accuracy_comparison.png" class="center" style="width:85%;">
+      <p class="fig-caption">Figure 1: Accuracy comparison between Single-Agent Systems (SAS) and Multi-Agent Systems (MAS) across six reasoning benchmarks. SAS achieves the highest accuracy in 13 out of 30 configurations (43.3%).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Abstract ════════════════ -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <div class="content has-text-justified">
+      <p>
+        Multi-agent systems (MAS) have emerged as a prominent paradigm for leveraging large language models (LLMs) to tackle complex tasks. However, the mechanisms governing the effectiveness of MAS built upon publicly available LLMs, specifically the underlying rationales for their success or failure, remain largely unexplored. In this paper, we revisit MAS through the perspective of <em>entropy</em>, considering both intra- and inter-agent dynamics by investigating entropy transitions during problem-solving across various topologies, six reasoning benchmarks, and two agentic tasks. By analyzing 245 features spanning token-, agent-, and round-level entropy, we counterintuitively find that a single agent outperforms MAS in approximately 43.3% of cases, and that entropy dynamics are largely determined during the first round of interaction. Furthermore, we provide three key observations: 1) <em>Certainty Preference</em>: peak entropy directly harms and stable entropy directly benefits MAS correctness; 2) <em>Base Entropy</em>: base models with lower entropy during problem-solving causally drive MAS performance; and 3) <em>Task Awareness</em>: entropy dynamics of MAS play varying roles across different tasks. Building on these insights, we introduce a simple yet effective algorithm, the <em>Entropy Judger</em>, to select solutions from MAS's pass@k results, leading to consistent accuracy improvements across all MAS configurations and tasks.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Key Findings ════════════════ -->
+<section class="section" style="background: #fafafa;" id="findings">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Key Findings</h2>
+
+    <div class="columns is-multiline" style="margin-top: 1.5rem;">
+      <div class="column is-6">
+        <div class="kf-callout kf-red">
+          <div class="kf-label">Counterintuitive Result</div>
+          <div class="kf-text">Single-agent systems outperform MAS in <strong>~43.3%</strong> of cases (13 out of 30 configurations), challenging the assumption that multi-agent collaboration is always beneficial. On average, SAS surpasses MAS accuracy by 6.28%.</div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="kf-callout kf-blue">
+          <div class="kf-label">Certainty Preference</div>
+          <div class="kf-text">Peak entropy directly harms MAS correctness, while stable low entropy directly benefits it. MAS effectiveness is largely determined by <strong>first-round</strong> entropy dynamics.</div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="kf-callout kf-green">
+          <div class="kf-label">Base Entropy</div>
+          <div class="kf-text">Base models with lower entropy during problem-solving are a <strong>causal driver</strong> of MAS performance (ATE = -0.12, p &lt; 10<sup>-21</sup>), validated through rigorous causal inference.</div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="kf-callout kf-orange">
+          <div class="kf-label">Task Awareness</div>
+          <div class="kf-text">Optimal entropy profiles are <strong>task-dependent</strong>: simple tasks require fast convergence to low entropy, while hard tasks benefit from controlled, moderate exploration.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MAS Topologies ════════════════ -->
+<section class="section" id="topologies">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">MAS Topologies</h2>
+    <p class="has-text-centered" style="margin-bottom: 1.5rem; color: #555;">
+      We study five interaction topologies. Each exhibits distinct entropy behavior and vulnerability patterns.
+    </p>
+
+    <!-- Shared SVG defs -->
+    <svg width="0" height="0" style="position:absolute;">
+      <defs>
+        <marker id="arr-b" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0,0.5 5,3 0,5.5" fill="#3273dc"/></marker>
+        <marker id="arr-g" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0,0.5 5,3 0,5.5" fill="#aaa"/></marker>
+        <marker id="arr-o" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0,0.5 5,3 0,5.5" fill="#e07b39"/></marker>
+      </defs>
+    </svg>
+
+    <div class="columns is-multiline">
+      <!-- Single Agent -->
+      <div class="column is-one-fifth">
+        <div class="topo-card">
+          <div class="topo-icon">
+            <svg width="110" height="100" viewBox="0 0 110 100">
+              <circle cx="55" cy="55" r="20" fill="#e8f4fd" stroke="#3273dc" stroke-width="2.5"/>
+              <text x="55" y="61" text-anchor="middle" font-size="15" fill="#3273dc" font-weight="600">A</text>
+              <path d="M 73 44 C 95 10, 15 10, 37 44" fill="none" stroke="#3273dc" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arr-b)"/>
+            </svg>
+          </div>
+          <div class="topo-name">Single</div>
+          <div class="topo-desc">Self-refinement loop. Internal consistency is key.</div>
+        </div>
+      </div>
+      <!-- Sequential -->
+      <div class="column is-one-fifth">
+        <div class="topo-card">
+          <div class="topo-icon">
+            <svg width="130" height="100" viewBox="0 0 130 100">
+              <circle cx="20" cy="50" r="14" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="65" cy="50" r="14" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="110" cy="50" r="14" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <line x1="34" y1="50" x2="51" y2="50" stroke="#3273dc" stroke-width="2" marker-end="url(#arr-b)"/>
+              <line x1="79" y1="50" x2="96" y2="50" stroke="#3273dc" stroke-width="2" marker-end="url(#arr-b)"/>
+              <text x="20" y="55" text-anchor="middle" font-size="11" fill="#3273dc" font-weight="600">P</text>
+              <text x="65" y="55" text-anchor="middle" font-size="11" fill="#3273dc" font-weight="600">S</text>
+              <text x="110" y="55" text-anchor="middle" font-size="11" fill="#3273dc" font-weight="600">J</text>
+              <text x="20" y="75" text-anchor="middle" font-size="8" fill="#999">Plan</text>
+              <text x="65" y="75" text-anchor="middle" font-size="8" fill="#999">Solve</text>
+              <text x="110" y="75" text-anchor="middle" font-size="8" fill="#999">Judge</text>
+            </svg>
+          </div>
+          <div class="topo-name">Sequential</div>
+          <div class="topo-desc">Fixed pipeline. Most fragile: errors propagate without cross-check.</div>
+        </div>
+      </div>
+      <!-- Centralized -->
+      <div class="column is-one-fifth">
+        <div class="topo-card">
+          <div class="topo-icon">
+            <svg width="110" height="100" viewBox="0 0 110 100">
+              <circle cx="55" cy="24" r="16" fill="#fff3e0" stroke="#e07b39" stroke-width="2.5"/>
+              <text x="55" y="30" text-anchor="middle" font-size="13" fill="#e07b39" font-weight="700">C</text>
+              <circle cx="20" cy="78" r="13" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="55" cy="78" r="13" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="90" cy="78" r="13" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <line x1="44" y1="37" x2="27" y2="65" stroke="#aaa" stroke-width="1.8" marker-end="url(#arr-g)"/>
+              <line x1="55" y1="40" x2="55" y2="65" stroke="#aaa" stroke-width="1.8" marker-end="url(#arr-g)"/>
+              <line x1="66" y1="37" x2="83" y2="65" stroke="#aaa" stroke-width="1.8" marker-end="url(#arr-g)"/>
+              <text x="20" y="82" text-anchor="middle" font-size="9" fill="#3273dc" font-weight="600">E1</text>
+              <text x="55" y="82" text-anchor="middle" font-size="9" fill="#3273dc" font-weight="600">E2</text>
+              <text x="90" y="82" text-anchor="middle" font-size="9" fill="#3273dc" font-weight="600">E3</text>
+            </svg>
+          </div>
+          <div class="topo-name">Centralized</div>
+          <div class="topo-desc">Star graph with orchestrator. Benefits most from additional rounds.</div>
+        </div>
+      </div>
+      <!-- Debate -->
+      <div class="column is-one-fifth">
+        <div class="topo-card">
+          <div class="topo-icon">
+            <svg width="110" height="100" viewBox="0 0 110 100">
+              <circle cx="55" cy="20" r="14" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="22" cy="72" r="14" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="88" cy="72" r="14" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <!-- bidirectional edges -->
+              <line x1="44" y1="31" x2="30" y2="60" stroke="#3273dc" stroke-width="1.8" marker-end="url(#arr-b)"/>
+              <line x1="66" y1="31" x2="80" y2="60" stroke="#3273dc" stroke-width="1.8" marker-end="url(#arr-b)"/>
+              <line x1="36" y1="72" x2="74" y2="72" stroke="#3273dc" stroke-width="1.8" marker-end="url(#arr-b)"/>
+              <text x="55" y="25" text-anchor="middle" font-size="10" fill="#3273dc" font-weight="600">A1</text>
+              <text x="22" y="77" text-anchor="middle" font-size="10" fill="#3273dc" font-weight="600">A2</text>
+              <text x="88" y="77" text-anchor="middle" font-size="10" fill="#3273dc" font-weight="600">A3</text>
+              <rect x="33" y="88" width="44" height="12" rx="3" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+              <text x="55" y="97" text-anchor="middle" font-size="7.5" fill="#666" font-weight="500">majority vote</text>
+            </svg>
+          </div>
+          <div class="topo-name">Debate</div>
+          <div class="topo-desc">DAG + majority voting. Initial divergence amplifies in later rounds.</div>
+        </div>
+      </div>
+      <!-- Hybrid -->
+      <div class="column is-one-fifth">
+        <div class="topo-card">
+          <div class="topo-icon">
+            <svg width="130" height="100" viewBox="0 0 130 100">
+              <circle cx="65" cy="20" r="16" fill="#fff3e0" stroke="#e07b39" stroke-width="2.5"/>
+              <text x="65" y="26" text-anchor="middle" font-size="13" fill="#e07b39" font-weight="700">C</text>
+              <circle cx="22" cy="76" r="13" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="65" cy="76" r="13" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <circle cx="108" cy="76" r="13" fill="#e8f4fd" stroke="#3273dc" stroke-width="2"/>
+              <!-- coordinator to experts -->
+              <line x1="54" y1="33" x2="30" y2="63" stroke="#e07b39" stroke-width="1.8" marker-end="url(#arr-o)"/>
+              <line x1="65" y1="36" x2="65" y2="63" stroke="#e07b39" stroke-width="1.8" marker-end="url(#arr-o)"/>
+              <line x1="76" y1="33" x2="100" y2="63" stroke="#e07b39" stroke-width="1.8" marker-end="url(#arr-o)"/>
+              <!-- peer links -->
+              <line x1="35" y1="76" x2="52" y2="76" stroke="#3273dc" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-b)"/>
+              <line x1="78" y1="76" x2="95" y2="76" stroke="#3273dc" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-b)"/>
+              <text x="22" y="80" text-anchor="middle" font-size="9" fill="#3273dc" font-weight="600">E1</text>
+              <text x="65" y="80" text-anchor="middle" font-size="9" fill="#3273dc" font-weight="600">E2</text>
+              <text x="108" y="80" text-anchor="middle" font-size="9" fill="#3273dc" font-weight="600">E3</text>
+              <text x="65" y="97" text-anchor="middle" font-size="8" fill="#999">peer links</text>
+            </svg>
+          </div>
+          <div class="topo-name">Hybrid</div>
+          <div class="topo-desc">Dual feedback (coordinator + peers). Most robust to perturbations.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experimental Scale -->
+    <h4 class="title is-5 has-text-centered" style="margin-top: 2rem;">Experimental Scale</h4>
+    <div class="columns has-text-centered">
+      <div class="column"><div class="result-number">245</div><div class="result-label">Entropy Features</div></div>
+      <div class="column"><div class="result-number">5</div><div class="result-label">Open-Source LLMs</div></div>
+      <div class="column"><div class="result-number">6+2</div><div class="result-label">Benchmarks</div></div>
+      <div class="column"><div class="result-number">5</div><div class="result-label">Topologies</div></div>
+      <div class="column"><div class="result-number">5</div><div class="result-label">Hierarchical Levels</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Methodology ════════════════ -->
+<section class="section" style="background: #fafafa;" id="methodology">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Methodology</h2>
+    <p class="has-text-justified" style="margin-bottom: 1.5rem;">
+      We systematically extract entropy from the full reasoning lifecycle of LLM-based MAS, constructing a hierarchical feature set that captures uncertainty at multiple granularities. We then apply SHAP-based interpretability analysis to identify which entropy dynamics predict MAS success or failure.
+    </p>
+
+    <!-- Hierarchical Entropy Features -->
+    <h4 class="title is-5">Hierarchical Entropy Features</h4>
+    <p class="has-text-justified" style="margin-bottom: 1rem;">
+      For each sample, we record the full output probability distribution at every token position across all agents and rounds, then aggregate into a 245-dimensional feature vector spanning five hierarchical levels:
+    </p>
+
+    <div class="columns is-multiline" style="margin-bottom: 1.5rem;">
+      <div class="column is-4">
+        <div class="stage-box">
+          <span class="stage-label">Token Level</span><br>
+          Per-token entropy H(t) = -&Sigma; p(v) log p(v) over the full vocabulary. Captures fine-grained uncertainty at each generation step.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box">
+          <span class="stage-label">Agent Level</span><br>
+          Statistics (mean, max, variance, quartiles) of token-level entropy within each agent's response. Captures individual agent confidence.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box">
+          <span class="stage-label">Round Level</span><br>
+          Cross-agent aggregation per round: inter-agent dispersion, consensus indicators, entropy trends across rounds.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box" style="border-color: #e07b39;">
+          <span class="stage-label" style="color: #e07b39;">Sample Level</span><br>
+          Global features across the entire reasoning trajectory: total entropy, stability indices, answer-token entropy.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box" style="border-color: #e07b39;">
+          <span class="stage-label" style="color: #e07b39;">Base Model Level</span><br>
+          Entropy from the same base model running as SAS on the same problem, providing a reference baseline for comparison.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box" style="border-color: #23d160;">
+          <span class="stage-label" style="color: #23d160;">Feature Groups</span><br>
+          G<sub>MAS</sub> (d=224): MAS-only features.<br>
+          G<sub>base-H</sub> (d=241): + base entropy.<br>
+          G<sub>base-full</sub> (d=245): all features.
+        </div>
+      </div>
+    </div>
+
+    <!-- SHAP Analysis -->
+    <h4 class="title is-5">Interpretability via SHAP</h4>
+    <p class="has-text-justified" style="margin-bottom: 1rem;">
+      We train an ensemble of XGBoost and LightGBM classifiers to predict MAS correctness from entropy features, then use SHAP (SHapley Additive exPlanations) to interpret which features matter and how:
+    </p>
+    <div class="columns">
+      <div class="column is-6">
+        <div class="highlight-box">
+          <strong>Feature Importance &#x012A;&#x0305;<sub>j</sub></strong><br>
+          Min-max normalized importance from each model, averaged across XGBoost and LightGBM. Higher values indicate stronger predictive power.
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="highlight-box">
+          <strong>SHAP Correlation &rho;<sub>j</sub></strong><br>
+          Pearson correlation between feature values and their SHAP attributions, averaged across models. Positive &rho; means higher feature value increases predicted correctness; negative &rho; means it decreases correctness.
+        </div>
+      </div>
+    </div>
+    <p class="has-text-justified" style="margin-top: 0.5rem;">
+      In the figures below, each feature is characterized by its importance (how much it matters) and SHAP correlation (which direction it pushes the prediction). For example, a feature with high &#x012A;&#x0305; and negative &rho; is a strong predictor that, when elevated, harms MAS correctness.
+    </p>
+
+    <!-- Causal Discovery -->
+    <h4 class="title is-5" style="margin-top: 2rem;">From Correlation to Causation</h4>
+    <p class="has-text-justified" style="margin-bottom: 1rem;">
+      SHAP reveals which entropy features <em>correlate</em> with MAS outcomes, but correlation alone cannot establish causal mechanisms. To go further, we employ a rigorous causal inference pipeline:
+    </p>
+    <div class="columns is-multiline" style="margin-bottom: 0.5rem;">
+      <div class="column is-4">
+        <div class="stage-box" style="border-color: #9333ea;">
+          <span class="stage-label" style="color: #9333ea;">Causal Discovery</span><br>
+          PC and FCI algorithms identify the causal graph structure from observational data, discovering <em>consensus direct causes</em> agreed upon by both methods.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box" style="border-color: #9333ea;">
+          <span class="stage-label" style="color: #9333ea;">Effect Estimation</span><br>
+          DoWhy framework estimates Average Treatment Effects (ATE) via propensity score matching and inverse probability weighting, quantifying the causal strength.
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="stage-box" style="border-color: #9333ea;">
+          <span class="stage-label" style="color: #9333ea;">Refutation Tests</span><br>
+          Three robustness checks: random common cause, placebo treatment, and data subset validation. Causal claims are accepted only if all tests pass.
+        </div>
+      </div>
+    </div>
+    <p class="has-text-justified">
+      This pipeline allows us to distinguish features that merely co-occur with success from those that <em>causally drive</em> MAS correctness. We additionally perform mediation analysis to trace how first-round entropy propagates through later rounds to influence the final outcome.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════ Entropy Analysis (Three Principles) ════════════════ -->
+<section class="section" id="entropy-analysis">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Entropy Analysis: Three Principles</h2>
+
+    <!-- Principle 1: Certainty Preference -->
+    <div class="content-block" style="margin-top: 2rem;">
+      <h4 class="title is-4">1. Certainty Preference</h4>
+      <p class="has-text-justified">
+        Peak entropy directly harms MAS correctness, while stable low entropy directly benefits it. For Qwen models, high entropy variance (&rho; &asymp; -0.92) and first-round divergence (&rho; &asymp; -0.87) are the primary failure drivers. Correct samples cluster at low entropy variance.
+      </p>
+      <div class="has-text-centered" style="margin-top: 1rem;">
+        <img src="./static/images/mas_analysis.png" style="width: 90%;">
+        <p class="fig-caption">Figure 3: MAS failure analysis. High inter-agent entropy variance and first-round divergence drive failures. Correct samples cluster at low entropy regions.</p>
+      </div>
+    </div>
+
+    <!-- Principle 2: Base Entropy -->
+    <div class="content-block" style="margin-top: 2.5rem;">
+      <h4 class="title is-4">2. Base Entropy</h4>
+      <p class="has-text-justified">
+        The base model's intrinsic entropy during problem-solving constrains MAS effectiveness. Higher base model entropy consistently reduces MAS accuracy, with a sharp drop when entropy exceeds 100. This is not merely correlation: causal analysis confirms base entropy as a direct cause (ATE = -0.12, p &lt; 10<sup>-21</sup>).
+      </p>
+      <div class="has-text-centered" style="margin-top: 1rem;">
+        <img src="./static/images/base_model_analysis.png" style="width: 90%;">
+        <p class="fig-caption">Figure 2: Base model entropy limits MAS. LLaMA operates in low-entropy range (0-100) with lower accuracy; Qwen uses higher entropy (100-1000) but achieves better performance through verification and correction.</p>
+      </div>
+    </div>
+
+    <!-- Principle 3: Task Awareness -->
+    <div class="content-block" style="margin-top: 2.5rem;">
+      <h4 class="title is-4">3. Task Awareness</h4>
+      <p class="has-text-justified">
+        Optimal entropy profiles vary by task difficulty. Simple tasks (GSM8K, ~82% accuracy) require fast convergence to low, stable entropy. Hard tasks (AIME, ~25% accuracy) benefit from controlled exploration but are destroyed by extreme peaks. Medium tasks exhibit a mixed pattern: moderate sustained entropy helps, but early peaks predict failure.
+      </p>
+      <div class="has-text-centered" style="margin-top: 1rem;">
+        <img src="./static/images/dataset_arch_analysis.png" style="width: 90%;">
+        <p class="fig-caption">Figure 4: Entropy-SHAP relationships by dataset and architecture. Entropy values and dispersion increase with task difficulty. GSM8K accuracy ~82%, AIME2025 accuracy ~25%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Causal Discovery ════════════════ -->
+<section class="section" id="causal">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Causal Discovery</h2>
+    <p class="has-text-justified" style="margin-bottom: 1.5rem;">
+      We go beyond correlation to establish <strong>causal mechanisms</strong> using PC and FCI algorithms for causal discovery, followed by DoWhy for effect estimation. All causal claims pass rigorous refutation tests (random common cause, placebo treatment, data subset).
+    </p>
+
+    <h4 class="title is-5">Consensus Direct Causes of MAS Correctness</h4>
+    <div class="columns" style="margin-bottom: 1.5rem;">
+      <div class="column is-4 has-text-centered">
+        <div class="result-number" style="color: #b91c1c;">-0.12</div>
+        <div class="result-label">ATE: Base model avg entropy per token<br>(p &lt; 10<sup>-21</sup>)</div>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <div class="result-number" style="color: #b91c1c;">-0.31</div>
+        <div class="result-label">ATE: Max answer token entropy<br>(p &lt; 10<sup>-28</sup>)</div>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <div class="result-number" style="color: #b91c1c;">neg.</div>
+        <div class="result-label">ATE: Round-1 total entropy<br>(p &lt; 10<sup>-19</sup>)</div>
+      </div>
+    </div>
+
+    <div class="columns is-variable is-2">
+      <div class="column is-4 has-text-centered">
+        <img src="./static/images/causal_base_model_entropy_default_causal_graph_consensus.png" style="width: 100%; height: 280px; object-fit: contain;">
+        <p class="fig-caption">Consensus causal graph discovered by PC and FCI algorithms.</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <img src="./static/images/causal_base_model_entropy_default_ate_comparison.png" style="width: 100%; height: 280px; object-fit: contain;">
+        <p class="fig-caption">ATE forest plot: consensus direct causes (red) show more concentrated estimates than indirect causes (blue).</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <img src="./static/images/causal_base_model_entropy_default_mediation_effects.png" style="width: 100%; height: 280px; object-fit: contain;">
+        <p class="fig-caption">Mediation analysis: 30-33% of the causal effect of first-round inter-agent entropy dispersion is transmitted through second-round entropy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Round & Difficulty Analysis ════════════════ -->
+<section class="section" style="background: #fafafa;" id="rounds">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Round & Difficulty Analysis</h2>
+
+    <div class="content has-text-justified">
+      <h4 class="title is-5">More Rounds ≠ Better Performance</h4>
+      <p>
+        Expanding from R=2 to R=5 rarely improves and often harms performance while consuming significantly more tokens. Debate and Hybrid architectures degrade with more rounds (divergence amplifies rather than refines). Centralized is the only architecture that consistently benefits from additional rounds.
+      </p>
+      <p>
+        Entropy dynamics confirm this: max, mean, and total entropy drop sharply from round 1 to round 2, then plateau from round 2 to round 5. Agents essentially stabilize after round 2, and first-round features dominate the top predictors.
+      </p>
+    </div>
+
+    <div class="has-text-centered">
+      <img src="./static/images/round_analysis.png" style="width: 85%;">
+      <p class="fig-caption">Figure 5: Round analysis (R=5). First-round total entropy is the consensus direct cause in the round 1-5 causal graph. Entropy plateaus after round 2.</p>
+    </div>
+
+    <h4 class="title is-5" style="margin-top: 2rem;">Task Difficulty Spectrum</h4>
+    <div class="columns">
+      <div class="column is-4">
+        <div class="insight-card i1">
+          <div class="insight-headline">Easy: GSM8K (~82%)</div>
+          <div class="insight-body">Requires fast convergence to low, stable entropy. Round-1 overall entropy (&rho; &asymp; -0.64) and stability index (&rho; &asymp; -0.79) strongly predict success.</div>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="insight-card i2">
+          <div class="insight-headline">Medium: MATH500</div>
+          <div class="insight-body">High average per-agent reasoning entropy (&rho; &asymp; 0.63) and longer reasoning (&rho; &asymp; 0.71) correlate with correctness. But excessive early entropy (&rho; &asymp; -0.73) predicts failure.</div>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="insight-card i3">
+          <div class="insight-headline">Hard: AIME (~25%)</div>
+          <div class="insight-body">Round-1 total reasoning time is top predictor (I&#x0305;=1.0, &rho; &asymp; 0.73). But round-1 max entropy (&rho; &le; -0.70) and inter-agent round-2 variance (|&rho;| &ge; 0.66) strongly predict failure.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Agentic Tasks ════════════════ -->
+<section class="section" id="agentic">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Agentic Tasks Extension</h2>
+    <p class="has-text-justified" style="margin-bottom: 1.5rem;">
+      Our entropy principles generalize beyond reasoning to agentic settings with tool use. We validate on GAIA (165 general AI assistant tasks across 3 difficulty levels, 6 models) and FinanceAgent (financial QA requiring SEC filings, multi-step calculations).
+    </p>
+
+    <!-- GAIA -->
+    <h4 class="title is-4">GAIA: General AI Assistants</h4>
+    <div class="content has-text-justified">
+      <p>
+        Key findings on GAIA (165 tasks, 6 models, 5 architectures): (1) SAS achieves the highest accuracy for 2 out of 6 models, and beats at least one MAS topology for every model. (2) Debate consistently performs worst. (3) Tool-call entropy and first-round inter-agent dispersion jointly constrain MAS correctness, mirroring the reasoning benchmark patterns.
+      </p>
+    </div>
+
+    <div class="columns is-variable is-2">
+      <div class="column is-4 has-text-centered">
+        <img src="./static/images/gaia_fig7_arch_accuracy.png" style="width: 100%; height: 260px; object-fit: contain;">
+        <p class="fig-caption">GAIA accuracy by model and architecture. Centralized often leads; Debate consistently underperforms.</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <img src="./static/images/gaia_fig3_entropy_accuracy.png" style="width: 100%; height: 260px; object-fit: contain;">
+        <p class="fig-caption">Accuracy vs. tool-call entropy quintiles: accuracy drops monotonically with increasing tool-call entropy.</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <img src="./static/images/gaia_fig1_shap_three_factor.png" style="width: 100%; height: 260px; object-fit: contain;">
+        <p class="fig-caption">SHAP: top predictors are round-1 inter-agent dispersion, mean tool-call entropy, and step-0 mean entropy, all negative.</p>
+      </div>
+    </div>
+
+    <div class="columns is-variable is-2" style="margin-top: 1rem;">
+      <div class="column is-6 has-text-centered">
+        <img src="./static/images/gaia_fig5_arch_radar.png" style="width: 100%; height: 280px; object-fit: contain;">
+        <p class="fig-caption">Architecture radar: no single topology dominates all axes (tool efficacy, low tool-call entropy, low round-1 max entropy).</p>
+      </div>
+      <div class="column is-6 has-text-centered">
+        <img src="./static/images/gaia_fig4_step_tool_entropy_heatmap.png" style="width: 100%; height: 280px; object-fit: contain;">
+        <p class="fig-caption">Step-wise entropy heatmap: correct trajectories (n=303) start at ~0.029 and stay low; incorrect ones (n=3389) start at ~0.057 and remain elevated.</p>
+      </div>
+    </div>
+
+    <!-- GAIA Causal (text only) -->
+    <h5 class="title is-5" style="margin-top: 1.5rem;">Causal Verification on GAIA</h5>
+    <div class="content has-text-justified">
+      <p>
+        Causal discovery on GAIA (feature space expanded to 295 dimensions with step-level features) identifies a single consensus direct cause: <strong>round-1 tool success rate</strong> (ATE = 0.068, p = 6.8&times;10<sup>-4</sup>). All three refutation tests pass (random common cause changes estimate by 0.1%, placebo treatment by 97.7%, data subset by 0.9%). The mediation path runs from <strong>round-1 inter-agent skewness</strong> through <strong>round-2 max agent dispersion</strong> to correctness (indirect effect = -0.019, bootstrap 95% CI [-0.042, -0.003]). This confirms that the first-round entropy principles observed in reasoning tasks extend to agentic settings with tool use.
+      </p>
+    </div>
+
+    <!-- FinanceAgent (text only) -->
+    <h4 class="title is-4" style="margin-top: 2.5rem;">FinanceAgent</h4>
+    <div class="content has-text-justified">
+      <p>
+        On a financial QA benchmark requiring SEC filing retrieval, real-time stock data queries, and multi-step numerical calculations (Qwen3-4B, R=2), <strong>SAS and Sequential tie at 40% accuracy</strong>, while coordination overhead is destructive: Centralized <strong>22%</strong>, Hybrid <strong>12%</strong>, Debate <strong>2%</strong>. SHAP confirms <strong>architecture itself as the top predictor</strong> (&rho; &asymp; 0.83-0.88), with <strong>step-0 mean entropy</strong> (&rho; &asymp; -0.75) as the second key factor, refining "first-round decisive" to "first reasoning step decisive."
+      </p>
+      <p>
+        Causal analysis identifies <strong>round-1 Q3 per-agent max entropy</strong> as the consensus direct cause (ATE = -0.197, p = 1.5&times;10<sup>-17</sup>), with a cross-round mediation proportion of <strong>68.9%</strong>, the largest observed in this study. Base model correctness remains overwhelmingly predictive (&rho; &asymp; 0.96): tool-calling does not loosen the base-model dependency.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RL Fine-tuning ════════════════ -->
+<section class="section" style="background: #fafafa;" id="rl">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">RL Fine-tuning: Entropy Relationship Reversal</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        Using Qwen2.5-7B-SimpleRL-Zoo (trained via zero-shot RL on 8K MATH problems without SFT), we observe a striking reversal:
+      </p>
+      <ul>
+        <li><strong>Standard base models:</strong> higher entropy monotonically reduces accuracy.</li>
+        <li><strong>RL-finetuned models:</strong> accuracy peaks near zero entropy, drops to a minimum, then <em>recovers</em> to a secondary plateau. The recovery indicates that moderate entropy represents productive exploration rather than degeneration.</li>
+        <li><strong>MAS consistently outperforms SAS</strong> with RL base models, unlike the 43.3% failure rate with standard models.</li>
+      </ul>
+      <p>
+        Causal analysis reveals two opposing direct causes: sample average entropy per token has <em>positive</em> ATE (+1.98, p = 3.7&times;10<sup>-17</sup>), while max answer token entropy remains negative (ATE = -0.31). RL training produces more reliable entropy estimates where entropy better reflects solution diversity rather than noise.
+      </p>
+    </div>
+
+    <div class="has-text-centered">
+      <img src="./static/images/rl_analysis.png" style="width: 85%;">
+      <p class="fig-caption">RL fine-tuning reshapes the entropy-accuracy relationship. Standard models show monotonic decline; RL models show recovery at moderate entropy, indicating productive exploration.</p>
+    </div>
+
+    <div class="content has-text-justified" style="margin-top: 1.5rem;">
+      <p>
+        Causal analysis on the RL-finetuned setting reveals <strong>two opposing consensus direct causes</strong>: sample average entropy per token has a <strong>positive</strong> ATE (+1.98, p = 3.7&times;10<sup>-17</sup>), indicating productive exploration, while max answer token entropy remains <strong>negative</strong> (ATE = -0.31, p = 4.1&times;10<sup>-23</sup>), still marking failure. The mediation path runs from round-1 Q3 per-agent total entropy through round-2 total entropy to correctness (indirect effect = +0.175), confirming that RL training produces more reliable entropy estimates where moderate entropy reflects genuine solution diversity rather than noise.
+      </p>
+      <p>
+        SHAP analysis further supports this duality: on G<sub>MAS</sub>, the top predictor is <strong>round-1 median entropy</strong> (&rho; &asymp; -0.758, negative), while <strong>round-2 entropy</strong> shows a positive correlation (&rho; &asymp; +0.267). The interpretation: <strong>early consensus combined with calibrated later-round exploration</strong> is the optimal pattern under RL fine-tuning.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Entropy Judger ════════════════ -->
+<section class="section" id="judger">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Entropy Judger</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        Building on our entropy insights, we introduce the <em>Entropy Judger</em>: an ensemble of XGBoost and LightGBM classifiers that leverages learned entropy patterns to select high-quality outputs from MAS pass@k candidates, <strong>without requiring ground-truth labels</strong>. It achieves consistent accuracy improvements across all MAS configurations and tasks.
+      </p>
+    </div>
+
+    <!-- Classification Accuracy -->
+    <h4 class="title is-5">Prediction Accuracy</h4>
+    <p>Cross-validated classification accuracy for predicting MAS correctness:</p>
+    <div class="table-container" style="margin: 1rem 0;">
+      <table class="table is-bordered is-striped is-narrow is-fullwidth">
+        <thead>
+          <tr>
+            <th>Feature Group</th>
+            <th>LLaMA Family</th>
+            <th>Qwen Family</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>G<sub>MAS</sub> (MAS-only, d=224)</td><td>72.6%</td><td>79.1%</td></tr>
+          <tr><td>G<sub>base-H</sub> (+ base entropy, d=241)</td><td>74.5%</td><td>80.7%</td></tr>
+          <tr><td>G<sub>base-full</sub> (all features, d=245)</td><td>81.2%</td><td>91.6%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pass@k Results -->
+    <h4 class="title is-5" style="margin-top: 1.5rem;">Pass@k Selection</h4>
+    <p class="has-text-justified">Entropy Judger selects from K=3 repeated runs, compared against random selection, majority voting, and the oracle upper bound (Pass@k). All strategies consume exactly k runs, so any accuracy gap reflects selection quality rather than additional computation.</p>
+    <div class="has-text-centered" style="margin-top: 1rem;">
+      <img src="./static/images/judger_best_of_k.png" style="width: 85%;">
+      <p class="fig-caption">Best-of-k selection accuracy across datasets and strategies at k=3, averaged over four models and all architectures.</p>
+    </div>
+
+    <div class="content has-text-justified" style="margin-top: 1.25rem;">
+      <p>
+        At k=3, the Entropy Judger <strong>consistently outperforms random selection</strong> across all benchmarks, while majority voting collapses catastrophically in the low-k regime (e.g., GSM8K MajVote drops from 0.895 to 0.315). The only exception is AIME2025, where almost all runs fail and entropy features carry little discriminative signal. An Early-Stop variant further shows that <strong>stronger models require fewer runs</strong>: Qwen3-8B on GSM8K commits after a single run with full confidence.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ Additional Experiments ════════════════ -->
+<section class="section" style="background: #fafafa;" id="additional">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Additional Experiments</h2>
+    <p class="has-text-justified" style="margin-bottom: 1.5rem;">
+      Beyond the main analyses above, we conduct extensive supplementary experiments to validate robustness, probe feature properties, and isolate confounding factors. Below we summarize key findings; full details are in the paper appendix.
+    </p>
+
+    <div class="columns is-multiline">
+      <!-- Feature Redundancy -->
+      <div class="column is-6">
+        <div class="insight-card i1">
+          <div class="insight-headline">Feature Redundancy Analysis</div>
+          <div class="insight-body">
+            Despite substantial pairwise correlation among the 245 features, PCA, recursive feature elimination, and cross-method importance validation confirm that redundancy is <strong>benign for SHAP-based predictive analysis</strong> (183:1 sample-to-feature ratio + tree-ensemble regularization). For causal discovery, we apply Borda-fusion selection to obtain a non-redundant 28-feature subset.
+            <br><span style="color: #3273dc; font-size: 0.78rem;">See Appendix C (Entropy Features).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calibration -->
+      <div class="column is-6">
+        <div class="insight-card i2">
+          <div class="insight-headline">Entropy Calibration Analysis</div>
+          <div class="insight-body">
+            Calibration quality is determined by <strong>model family</strong> (Qwen ECE = 0.275 vs. LLaMA ECE = 0.565) and degrades with task difficulty (ECE = 0.110 on GSM8K vs. 0.632 on AIME2025). The "confidently wrong" rate correlates with ECE at r = 0.989. On agentic tasks (GAIA), calibration is uniformly poor (ECE = 0.790).
+            <br><span style="color: #3273dc; font-size: 0.78rem;">See Appendix H (Calibration Analysis).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controlled SAS vs MAS -->
+      <div class="column is-6">
+        <div class="insight-card i3">
+          <div class="insight-headline">Controlled SAS vs. MAS Decomposition</div>
+          <div class="insight-body">
+            A three-way comparison (SAS, MAS Round-1, MAS Round-2) isolates whether entropy shifts come from role assignment or interaction. Role assignment alone is a significant intervention (23/30 cases, p &lt; 0.05). Decomposition shows <strong>83.4% of samples exhibit anchoring</strong> (entropy decrease without accuracy gain) while only 6.2% show genuine improvement.
+            <br><span style="color: #3273dc; font-size: 0.78rem;">See Appendix I (SAS vs. MAS Comparison).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Robustness -->
+      <div class="column is-6">
+        <div class="insight-card i4">
+          <div class="insight-headline">Robustness Verification</div>
+          <div class="insight-body">
+            Temperature ablation (0.3-0.9) confirms that relative entropy patterns are preserved across sampling temperatures. Results reproduce at <strong>14B parameter scale</strong> (Qwen3-14B), and per-finding causal validation (applied finding-by-finding rather than globally) confirms all main claims independently.
+            <br><span style="color: #3273dc; font-size: 0.78rem;">See Appendix E (More Experimental Results).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model Comparison -->
+      <div class="column is-6">
+        <div class="insight-card i1">
+          <div class="insight-headline">Divergent Reasoning Styles: Qwen vs. LLaMA</div>
+          <div class="insight-body">
+            Qualitative case study on AIME2025: Qwen independently re-derives solutions at each agent (self-correcting, higher entropy but suppresses error propagation), while LLaMA accepts and reuses prior answers without verification (lower entropy but errors compound through the chain).
+            <br><span style="color: #3273dc; font-size: 0.78rem;">See Appendix F (Model Comparison).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Token-level Case Study -->
+      <div class="column is-6">
+        <div class="insight-card i2">
+          <div class="insight-headline">Token-Level Entropy Visualization</div>
+          <div class="insight-body">
+            Per-token entropy trajectories across five models reveal that <strong>moderate, stable entropy correlates with success</strong>, while both excessively high entropy (erratic reasoning) and near-zero entropy (premature collapse, as seen in LLaMA's round-2 behavior) predict failure.
+            <br><span style="color: #3273dc; font-size: 0.78rem;">See Appendix J (Case Study).</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ BibTeX ════════════════ -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3 has-text-centered">BibTeX</h2>
+    <pre class="citation-box">@article{zhao2026does,
+  title={When Does Multi-Agent Collaboration Help? An Entropy Perspective},
+  author={Zhao, Yuxuan and Chen, Sijia and Su, Ningxin},
+  journal={arXiv preprint arXiv:2602.04234},
+  year={2026}
+}</pre>
+  </div>
+</section>
+
+<!-- ════════════════ Footer ════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p>
+        Website template adapted from <a href="https://nerfies.github.io">Nerfies</a> and <a href="https://mmmu-benchmark.github.io">MMMU</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="./static/js/fontawesome.all.min.js"></script>
+<script src="./static/js/index.js"></script>
+</body>
+</html>
