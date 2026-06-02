@@ -98,14 +98,24 @@
   </div>
 </section>
 
-<!-- ════════════════ Abstract ════════════════ -->
+<!-- ════════════════ Background & Motivation ════════════════ -->
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered" data-reveal>Abstract</h2>
-    <div class="content has-text-justified" data-reveal data-delay="1">
-      <p>
-        Multi-agent systems (MAS) have emerged as a prominent paradigm for leveraging large language models (LLMs) to tackle complex tasks. However, the mechanisms governing the effectiveness of MAS built upon publicly available LLMs, specifically the underlying rationales for their success or failure, remain largely unexplored. In this paper, we revisit MAS through the perspective of <em>entropy</em>, considering both intra- and inter-agent dynamics by investigating entropy transitions during problem-solving across various topologies, six reasoning benchmarks, and two agentic tasks. By analyzing 245 features spanning token-, agent-, and round-level entropy, we counterintuitively find that a single agent outperforms MAS in approximately 43.3% of cases, and that entropy dynamics are largely determined during the first round of interaction. Furthermore, we provide three key observations: 1) <em>Certainty Preference</em>: peak entropy directly harms and stable entropy directly benefits MAS correctness; 2) <em>Base Entropy</em>: base models with lower entropy during problem-solving causally drive MAS performance; and 3) <em>Task Awareness</em>: entropy dynamics of MAS play varying roles across different tasks. Building on these insights, we introduce a simple yet effective algorithm, the <em>Entropy Judger</em>, to select solutions from MAS's pass@k results, leading to consistent accuracy improvements across all MAS configurations and tasks.
-      </p>
+    <h2 class="title is-3 has-text-centered" data-reveal>Background &amp; Motivation</h2>
+
+    <div class="columns is-multiline" style="margin-top: 1.5rem;">
+      <div class="column is-6" data-reveal data-delay="1">
+        <div class="kf-callout kf-purple">
+          <div class="kf-label">The Promise of MAS</div>
+          <div class="kf-text">Multi-agent systems (MAS) have emerged as a prominent paradigm for deploying LLMs on complex tasks. Yet the <strong>mechanisms governing their effectiveness</strong> remain poorly understood: the underlying rationales for <strong>why MAS succeed or fail</strong>, particularly for systems built on publicly available LLMs, are largely unexplored.</div>
+        </div>
+      </div>
+      <div class="column is-6" data-reveal data-delay="2">
+        <div class="kf-callout kf-teal">
+          <div class="kf-label">An Entropy Perspective</div>
+          <div class="kf-text">We revisit MAS through the perspective of <em>entropy</em>, considering both <strong>intra- and inter-agent dynamics</strong> by tracing entropy transitions during problem-solving across various topologies, 6 reasoning benchmarks, and 2 agentic tasks. Analyzing <strong>245 features</strong> spanning token-, agent-, and round-level entropy, we arrive at <strong>four key findings</strong>.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

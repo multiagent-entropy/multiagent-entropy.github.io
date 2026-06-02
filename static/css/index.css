@@ -129,6 +129,7 @@ body {
   border: 1px solid;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.25s ease, transform 0.25s ease;
+  height: 100%;
 }
 .kf-callout:hover {
   box-shadow: var(--shadow-md);
@@ -157,6 +158,10 @@ body {
 .kf-orange .kf-label{ background: oklch(0.890 0.09 58);  color: oklch(0.35 0.12 58);  }
 .kf-green { background: oklch(0.975 0.018 148); border-color: oklch(0.870 0.08 148); }
 .kf-green .kf-label { background: oklch(0.870 0.09 148); color: oklch(0.28 0.14 148); }
+.kf-purple { background: oklch(0.975 0.020 296); border-color: oklch(0.870 0.08 296); }
+.kf-purple .kf-label { background: oklch(0.870 0.09 296); color: oklch(0.30 0.15 296); }
+.kf-teal { background: oklch(0.975 0.018 200); border-color: oklch(0.870 0.08 200); }
+.kf-teal .kf-label { background: oklch(0.870 0.09 200); color: oklch(0.28 0.13 200); }
 
 /* ─── Insight cards ─────────────────────────────────── */
 /* Fixed: replaced border-left > 1px with border-top accent */
