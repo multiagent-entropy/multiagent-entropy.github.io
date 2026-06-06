@@ -28,6 +28,7 @@
         <div class="navbar-dropdown">
           <a class="navbar-item" href="https://arxiv.org/abs/2602.04234" target="_blank"><b>arXiv</b></a>
           <a class="navbar-item" href="https://github.com/AgenticFinLab/multiagent-entropy" target="_blank"><b>Code</b></a>
+          <a class="navbar-item" href="https://huggingface.co/datasets/AgenticFinLab/multiagent-entropy-rawdata" target="_blank"><b>Raw Experimental Results</b></a>
           <hr class="navbar-divider">
           <a class="navbar-item" href="#findings">Key Findings</a>
           <a class="navbar-item" href="#topologies">Topologies</a>
@@ -78,12 +79,22 @@
             <span>Code</span>
           </a>
         </span>
+        <span class="link-block">
+          <a href="https://huggingface.co/datasets/AgenticFinLab/multiagent-entropy-rawdata" class="button is-normal is-rounded is-info">
+            <span class="icon"><i class="fas fa-database"></i></span>
+            <span>Raw Experimental Results</span>
+          </a>
+        </span>
       </div>
 
-      <p class="is-size-6" style="margin-top: 1.2rem; color: #444; max-width: 700px; margin-left: auto; margin-right: auto;">
-        Single-agent systems outperform multi-agent systems in <strong><span data-count="43.3" data-count-suffix="%" data-count-decimals="1">43.3%</span></strong> of cases.
-        Entropy dynamics in the <strong>first round</strong> largely determine MAS effectiveness.
-      </p>
+      <div style="margin-top: 1.5rem; max-width: 700px; margin-left: auto; margin-right: auto; font-size: 1.1rem; color: var(--ink-2); line-height: 1.65;">
+        <p style="margin: 0 0 0.65rem; text-wrap: pretty;">
+          MAS does not always outperform a single agent, and we find that both <strong style="color: var(--ink-1);">peak entropy</strong> and <strong style="color: var(--ink-1);">higher base model entropy</strong> consistently harm MAS outcomes, with effectiveness largely determined by entropy dynamics in the <strong style="color: var(--ink-1);">first round</strong> of interaction. Causal inference further validates these findings.
+        </p>
+        <p style="margin: 0; text-wrap: pretty;">
+          <strong style="color: var(--brand);">RL-tuned base models overturn this picture:</strong> MAS never loses to a single agent, and entropy transforms from a uniform failure signal into a productive exploration mechanism.
+        </p>
+      </div>
     </div>
   </div>
 </section>
